@@ -36,7 +36,7 @@ public class Ejercicio2 {
         
         try {
             ProcessBuilder pb = new ProcessBuilder("ls", "-ln");
-            pb.directory(new File("/home/jaime"));
+            pb.directory(new File("/home/jaime/Descargas"));
 
             
             

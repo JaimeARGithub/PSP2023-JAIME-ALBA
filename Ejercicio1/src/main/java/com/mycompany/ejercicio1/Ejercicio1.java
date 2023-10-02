@@ -44,7 +44,7 @@ public class Ejercicio1 {
             
             // Si quiero que inicie la búsqueda en un directorio de donde
             // tiene los .class, que es donde empieza:
-            pb.directory(new File("/home"));
+            pb.directory(new File("/home/jaime"));
             // Se va a usar con frecuencia, para hacer búsquedas en directorios
             // que no sean el del proyecto.
             
