@@ -42,7 +42,7 @@ public class Ejercicio1 {
         try {
             ProcessBuilder pb = new ProcessBuilder("ls", "-ln");
             
-            // Si quiero que inicie la búsqueda en un directorio de donde
+            // Si quiero que inicie la búsqueda en un directorio distinto de donde
             // tiene los .class, que es donde empieza:
             pb.directory(new File("/home/jaime"));
             // Se va a usar con frecuencia, para hacer búsquedas en directorios
