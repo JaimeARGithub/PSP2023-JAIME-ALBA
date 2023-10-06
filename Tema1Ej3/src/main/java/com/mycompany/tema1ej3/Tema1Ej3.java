@@ -15,6 +15,9 @@ import java.io.InputStreamReader;
  */
 public class Tema1Ej3 {
 
+    // Está un poco chapucero voy avisando, pero lo que
+    // es funcionar funciona
+    
     public static void main(String[] args) {
         
         if (args.length!=1) { 
@@ -28,6 +31,13 @@ public class Tema1Ej3 {
 
         
         ProcessBuilder pb = new ProcessBuilder("man", comando);
+        
+        // Una opción es con man.
+        // Opción b: los ejecutables del sistema están en /bin; comprobar
+        // si el comando existe en la carpeta /bin. Concatenar /bin con el
+        // nombre del comando y comprobar que existe (que sea un archivo
+        // válido).
+        
         pb.directory(new File("/home/jaime"));
         
         try {
