@@ -7,6 +7,12 @@ package com.mycompany.tema1ej4b;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -15,48 +21,24 @@ import java.io.InputStreamReader;
 public class Tema1Ej4b {
 
     public static void main(String[] args) {
-        
         if (args.length!=1) { 
-            // Para simplificarlo, en lugar de un nombre metemos
-            // nº de campo
-            // Ejemplo: ordenar por campo 0 (númerom de usuario)
-            System.out.println("Error; introducir un único número de campo.");
+        // Sólo acepta un argumento de entrada, el nº del campo
+            System.out.println("Error; introducir un único nombre de usuario.");
+            System.exit(0);
+        }
+        
+        // Como parámetro, vamos a pasar la posición del campo
+        // La salida tiene 8 campos; el usuario debe introducir un
+        // número entre el 1 y el 8 y nosotros lo aplicamos a 0 a 7
+        int numCampo = Integer.parseInt(args[0]);
+        if (numCampo<1 || numCampo>8) {
+            System.out.println("El número de campo debe estar comprendido entre 1 y 8.");
             System.exit(1);
         }
-        // Necesito una estructura que me permita tener el campo como parámetro
-        // de ordenación, y por otro lado, la línea entera (la String)
-        // Permite ordenar por clave o por valor.
         
-        // Estructura Java: HashMap. Clave-Valor. Ejemplo:
-        // HashMap<String, String> Lineas
-        // Lineas{root] = "root 1, 8, ..."
-        // Lineas[joaquin] = "joaquin 2, 4, ..."
-        
-        // Problema: hay campos que NO son únicos.
-        // El HashMap tiene clave y valor; el valor se puede repetir,
-        // pero la clave no.
-        
-        // Lineas[1] = "..."
-        // Meto como clave el campo 1 (el PID, no se repite) y como valor
-        // la línea entera -> Lineas.sort();
-        
-        // Meto la línea como clave (las líneas son únicas, no se repiten)
-        // y el valor va a ser el nombre del usuario; a la hora de ordenar el
-        // HashMap, puedo ordenar por CLAVE o por VALOR.
-        // Lo que meta como clave NUNCA puede repetirse.
-        // En las claves meto las líneas completas, que NO se repiten, y en
-        // valor meto los nombres de usuario, que SÍ se repiten. Y ordeno
-        // por valor.
-        
-        // HashMap implementa un método nativo para ordenar por clave, pero
-        // no por valor.
-        // Dice que lo va a subir él, pero intentar hacerlo yo por mi cuenta.
-        
-        
-        
-        String nombre = args[0];
         
         ProcessBuilder pb = new ProcessBuilder("ps", "-ef");
+        
         
         try {
             
@@ -64,25 +46,39 @@ public class Tema1Ej4b {
             InputStreamReader isr = new InputStreamReader(p.getInputStream());
             BufferedReader br = new BufferedReader(isr);
             
-            String linea = br.readLine();
-            String[] campos;
             
-            System.out.println("Procesos para el usuario "+nombre+":");
-            System.out.println("");
-            System.out.println("");
-            while (linea!=null) {
+            String linea;
+            String[] campos;
+            // Habría que ver la salida ordenada por el campo que yo le diga
+            // Como la clave no se puede repetir, la línea completa va a ser la
+            // clave, el campo por el que quiero ordenar va a ser el valor y
+            // ordeno por valor
+            
+            // Me declaro un HashMap para guardar líneas como clave y, como valor,
+            // el campo por el que voy a ordenar
+            HashMap<String,String> mapLine = new HashMap<>();
+            
+            
+            
+            while ((linea=br.readLine()) != null) {
                 campos = linea.split(" +");
-                    if (campos[0].equals(nombre)) {
-                        System.out.println(campos[7]);
-                    }
+                    
+                // Rellenamos el HashMap con entradas; la línea completa que vaya
+                // a leer como clave y el campo por el que se ordena como valor
+                mapLine.put(linea, campos[numCampo-1]);
                 
-                linea = br.readLine();
             }
             
             br.close();
+            // Ordenamos el HashMap por valor (campo elegido)
+            List<Entry<String,String>> mapLineOrdenado = new ArrayList<>(mapLine.entrySet());
+            mapLineOrdenado.sort(Entry.comparingByValue());
             
             
-            System.out.println("Programa principal terminado.");
+            for (Entry<String,String> e:mapLineOrdenado) {
+                System.out.println(e.getKey()+"----"+e.getValue());
+            }
+            
             
         } catch (IOException ioe) {
             System.out.println("Excepción IOE");
