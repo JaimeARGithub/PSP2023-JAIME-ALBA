@@ -24,7 +24,19 @@ public class Tema1Ej4c {
         String nombre = args[0];
         double memoria = 0.0;
         
-        ProcessBuilder pb = new ProcessBuilder("ps", "aux", "--sort=-%mem");
+        // Se te puede pedir que el nombre de usuario sea un nombre de usuario válido.
+        
+        // Comando cat /etc/passwd: contiene los usuarios del sistema
+        // La primera columna contiene los usuarios
+        // Comando completo para ver solamente los usuarios:
+        // cat /etc/passwd | cut -d ":" -f1 | sort
+        
+        // No es necesario, es pillar las strings de cat /etc/passwd línea por
+        // línea, separar en columnas, quedarme con la primera y comprobar que
+        // el nombre del usuario coincide con alguno de los valores
+        
+        
+        ProcessBuilder pb = new ProcessBuilder("ps", "aux");
         
         try {
             
@@ -52,6 +64,6 @@ public class Tema1Ej4c {
             System.out.println("Excepción de tipo IOE");
         }
         
-        System.out.println(memoria);
+        System.out.printf("El usuario %s está ocupando %.2f memoria",nombre,memoria);
     }
 }

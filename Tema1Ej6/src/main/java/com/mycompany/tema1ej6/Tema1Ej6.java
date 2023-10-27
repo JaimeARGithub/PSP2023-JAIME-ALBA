@@ -5,6 +5,8 @@
 package com.mycompany.tema1ej6;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.Executors;
@@ -22,57 +24,47 @@ public class Tema1Ej6 {
         
         if (args.length!=2) { 
         // Sólo acepta dos argumentos de entrada, el archivo y el directorio
-            System.out.println("Error; introducir un directorio y un nombre de archivo");
-            System.exit(1);
+            System.out.println("Error; introducir un directorio de partida y un nombre de archivo a buscar");
+            System.exit(0);
         } 
         
-        String archivo = args[0];
-        String directorio = args[1];
+        String directorio = args[0];
+        String archivo = args[1];
         
-        // Ésto es de la IA
-        AtomicBoolean detenido = new AtomicBoolean(false);
+        // Sintaxis del find: find /home/Escritorio -name Salida.txt
+        // El comando, desde dónde buscar y el nombre del archivo
+        File dir = new File(directorio);
         
-        ProcessBuilder pb = new ProcessBuilder("find", directorio, "-name", archivo);
-        try {
-            Process p = pb.start();
-            
-            // Ésto también
-            ScheduledExecutorService gestor = Executors.newScheduledThreadPool(1);
-            gestor.schedule(() -> {
-                if (p.isAlive()) {
-                    p.destroy();
-                    detenido.set(true);
-                }
-            }, 6, TimeUnit.SECONDS);
-            p.waitFor();   
-        } catch (IOException ioe) {
-            System.out.println("Excepción de tipo IOE");
-        } catch (InterruptedException ioe) {
-            System.out.println("Excepción de tipo Interrupted");
+        // Posible validación: comprobar que el directorio existe
+        // Crear variable File y .exists()
+        if (!dir.isDirectory()) {
+            System.out.println("El directorio introducido no existe.");
+            System.exit(1);
         }
         
         
-        if (detenido.get()) {
-            System.out.println("Han pasado seis segundos; proceso detenido.");
-        } else {
-            
-            pb = new ProcessBuilder("find", directorio, "-name", archivo);
+        ProcessBuilder pb = new ProcessBuilder("find", directorio, "-name", archivo);
+        File fSalida = new File("Salida.txt");
+        pb.redirectOutput(fSalida);
+        
+        try {
+            Process p = pb.start();
             try {
-                Process p = pb.start();
-                InputStreamReader isr = new InputStreamReader(p.getInputStream());
-                BufferedReader br = new BufferedReader(isr);
-                String linea = br.readLine();
-                while (linea!=null) {
-                    System.out.println(linea);
-                    linea = br.readLine();
+                if (!p.waitFor(6, TimeUnit.SECONDS)) {
+                    p.destroy();
                 }
-                
-                
-            } catch (IOException ioe) {
-                System.out.println("Excepción de tipo IOE");
-            } 
+            } catch (InterruptedException ie) {
+                System.out.println(ie);
+            }
             
+            // Y mostrar por pantalla la salida del archivo.
+            FileReader lector = new FileReader("Salida.txt");
+            BufferedReader br = new BufferedReader(lector);
             
+            // Y LA COSA DE LEER LÍNEA A LÍNEA.
+            
+        } catch (IOException ioe) {
+            System.out.println(ioe);
         }
     }
 }
