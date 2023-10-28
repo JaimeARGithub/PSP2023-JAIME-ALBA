@@ -1,0 +1,2 @@
+/home/jaime/NetBeansProjects/PSP2023-JAIME-ALBA/Tema1Ej5/Salida.txt
+/home/jaime/NetBeansProjects/PSP2023-JAIME-ALBA/Tema1Ej6/Salida.txt

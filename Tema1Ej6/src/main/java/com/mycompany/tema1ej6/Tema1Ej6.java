@@ -58,10 +58,15 @@ public class Tema1Ej6 {
             }
             
             // Y mostrar por pantalla la salida del archivo.
-            FileReader lector = new FileReader("Salida.txt");
+            FileReader lector = new FileReader(fSalida);
             BufferedReader br = new BufferedReader(lector);
             
-            // Y LA COSA DE LEER LÍNEA A LÍNEA.
+            String linea = br.readLine();
+            
+            while (linea != null) {
+                System.out.println(linea);
+                linea = br.readLine();
+            }
             
         } catch (IOException ioe) {
             System.out.println(ioe);
