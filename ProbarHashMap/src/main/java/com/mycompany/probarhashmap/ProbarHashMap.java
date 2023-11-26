@@ -60,8 +60,8 @@ public class ProbarHashMap {
         // de tipo Map.entry
         // Para acceder a los elementos del HashMap; si por ejemplo quiero ver
         // la edad de Juan
-        personas.get("Juan"); // Devuélveme el valor para esa clave
-        System.out.println(personas.get("Juan"));
+        personas.get("ZJuan"); // Devuélveme el valor para esa clave
+        System.out.println(personas.get("ZJuan"));
         
         
         // Lo recorremos.
@@ -99,7 +99,7 @@ public class ProbarHashMap {
         // o el LinkedHashMap en un TreeMap.
         TreeMap<String,Integer> persOrd = new TreeMap<>(personas);
         // Si quiero guardarlo por clave invertida:
-//        TreeMap<String,Integer> persOrd = new TreeMap<>(Collection.reverseOrder());
+//        TreeMap<String,Integer> persOrd = new TreeMap<>(Comparator.reverseOrder());
 //        persOrd.putAll(personas);
         
         

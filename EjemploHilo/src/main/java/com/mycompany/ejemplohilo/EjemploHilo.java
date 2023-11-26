@@ -15,15 +15,18 @@ public class EjemploHilo {
         Saludador sa2 = new Saludador("H2");
         Saludador sa3 = new Saludador("H3");
         Saludador sa4 = new Saludador("H4");
+        Saludador sa5 = new Saludador("H5");
         
         // Crea los hilos, pero no los lanza
         Thread h1 = new Thread(sa1);
         Thread h2 = new Thread(sa2);
         Thread h3 = new Thread(sa3);
         Thread h4 = new Thread(sa4);
+        Thread h5 = new Thread(sa5);
         
         h1.start(); // Iniciamos ejecución del hilo 1
         h2.start(); // Iniciamos ejecución del hilo 2
+        h5.start();
         
         // SIEMPRE hay que controlar que el programa principal NO PUEDA
         // TERMINAR hasta que hayan acabado los demás hilos.
@@ -35,6 +38,7 @@ public class EjemploHilo {
         try {
             h1.join(); // Indicamos al principal que espere a que acabe el hilo 1
             h2.join(); // Indicamos al principal que espere a que acabe el hilo 2
+            h5.join();
         } catch (InterruptedException ie) {
             System.out.println(ie);
         }

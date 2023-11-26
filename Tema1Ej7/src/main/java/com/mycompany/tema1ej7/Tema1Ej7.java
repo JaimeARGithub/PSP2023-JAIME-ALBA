@@ -37,7 +37,7 @@ public class Tema1Ej7 {
             System.exit(1);
         }
         
-        ProcessBuilder pb = new ProcessBuilder("grep", pattern, args[0]);
+        ProcessBuilder pb = new ProcessBuilder("grep", pattern, entrada);
         File fSalida = new File(salida);
         
         
