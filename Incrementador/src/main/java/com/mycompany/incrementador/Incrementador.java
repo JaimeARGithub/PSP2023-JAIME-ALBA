@@ -120,7 +120,7 @@ class Sumador implements Runnable {
         // Es recomendable poner a cada hilo un system out que los
         // identifique cuando trabajen.
         System.out.println(this.numHilo + " iniciado.");
-        for (int i=0; i<10000; i++) {
+        for (int i=0; i<100000; i++) {
             c.Sumar(); // Se ejecuta el método incrementador 100 veces
         }
         System.out.println(this.numHilo + " terminado.");
