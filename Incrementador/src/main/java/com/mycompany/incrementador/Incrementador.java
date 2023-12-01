@@ -33,14 +33,17 @@ public class Incrementador {
         // 2.- Nos creamos un array de hilos, para controlar qué
         // hilo se está ejecutando en cada momento
         int numeroHilos = 10;
+        // Lo suyo es almacenar todos los hilos en una estructura, para
+        // almacenarlos, identificarlos y detenerlos
         Thread[] hilos = new Thread[numeroHilos];
         
         for (int i=0; i<numeroHilos; i++) {
         
-        // 3.- Se crean y ejecutan    
+        // 3.- Se crean y ejecutan, creando los distintos hilos con la clase que
+        // implementa el hilo (la interfaz Runnable y el método .run()
             
             // Creamos una instancia de la clase sumador; por sí sola no hace nada
-            Sumador sum = new Sumador(c,i);
+            Sumador sum = new Sumador(c,i+1);
             
             // Creamos un hilo para ese sumador y lo guardamos en una posición
             // del array de hilos
@@ -134,6 +137,9 @@ class Sumador implements Runnable {
 // Se trata del recurso compartido, la clase con la que van a tratar todos
 // los hilos (un objeto de esa clase)
 class Contador{
+    
+    // dentro de la clase que es el recurso compartido vamos a tener, como
+    // mínimo, la variable, el constructor y los métodos que acceden a la variable
     private int cuenta;
     
     
@@ -142,6 +148,9 @@ class Contador{
     }
     
     
+    // Los hilos no pueden tocar directamente la variable, sino que tienen
+    // que hacerlo a través de métodos de la clase contador.
+    // Si no, el acceso a la variable no se puede restringir ni controlar
     public synchronized void Sumar() {
             this.cuenta++;
     }
