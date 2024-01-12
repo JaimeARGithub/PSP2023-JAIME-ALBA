@@ -36,17 +36,22 @@ public class AdivinaNumero {
     dicho (ArrayList)
     */
     public static void main(String[] args) {
+        // Antes de nada hay que definir el número de hilos que vamos a usar e
+        // instanciar la clase random
+        int numHilos = 10;
         Random random = new Random();
+        
+        // Indicamos que elija número ente el 1 y el 50
+        // otra forma: int numeroAleatorio = 1 + random.nextInt(49);
         int numeroAleatorio = random.nextInt(50 - 1 + 1) + 1;
         System.out.println("El número aleatorio elegido es: "+numeroAleatorio);
         
-        Numero num = new Numero(numeroAleatorio);
+        Numero num1 = new Numero(numeroAleatorio);
         
-        int numHilos = 10;
         Thread[] hilos = new Thread[numHilos];
         
         for (int i=0; i<numHilos; i++) {
-            Adivinador adiv = new Adivinador(num, i+1);
+            Adivinador adiv = new Adivinador(num1, "Adivinador "+(i+1));
             hilos[i] = new Thread(adiv);
             hilos[i].start();
         }
@@ -66,11 +71,11 @@ public class AdivinaNumero {
 class Adivinador implements Runnable {
     // Atributos: el recurso compartido y un identificador
     private final Numero n;
-    private int numHilo;
+    private String numHilo;
         
         
     // En el constructor se inicializan ambos
-    public Adivinador(Numero num, int id) {
+    public Adivinador(Numero num, String id) {
         this.n = num;
         this.numHilo = id;
     }
@@ -98,6 +103,8 @@ class Adivinador implements Runnable {
             } else {
                 System.out.println("¡El hilo "+this.numHilo+" ha fallado!");
                 n.añadeNumero(numProbar);
+                // El random se utiliza en los hilos porque, a la hora de que esperen, puedo
+                // no querer que todos los hilos esperen el mismo tiempo
                 numSegundos = random.nextInt(3 - 1 + 1) + 1;
                 try {
                     Thread.sleep(numSegundos*1000);
@@ -112,6 +119,9 @@ class Adivinador implements Runnable {
 }
     
     
+// El recurso compartido se deja siempre en una clase individual, y esta
+// clase tiene que implementar acceso a las variables internas
+// El número a adivinar y los métodos de acceso
 class Numero {
     // Atributos: el número aleatorio, un ArrayList con los que ya han aparecido
     // y un interruptor que indica si ya se ha adivinado o no el número
@@ -120,12 +130,13 @@ class Numero {
     private boolean adivinado;
         
     // Constructor
+    // Inicializamos la variable numero con el número a adivinar elegido
     public Numero(int num) {
         this.numero=num;
         this.aparecidos = new ArrayList<Integer>();
         this.adivinado=false;
     }
-        
+    
     // Métodos: 
     // -Uno para acceder al valor del número (getter)
     // -Un getter para ver si el número se ha adivinado, y un setter para
