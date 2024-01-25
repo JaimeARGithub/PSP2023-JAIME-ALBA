@@ -99,8 +99,8 @@ public class Encuesta {
         
         // Para terminar, mostramos los resultados de la encuesta
         System.out.println("----------Resultados por zona----------");
-        for (int i=0; i<NumeroZonas; i++) {
-            System.out.println("Para la zona " +(i+1)+ " se han obtenido " +Resp.getRespZona().get(i)+ " respuestas.");
+        for (int i=1; i<=NumeroZonas; i++) {
+            System.out.println("Para la zona " +i+ " se han obtenido " +Resp.getRespZona().get(i)+ " respuestas.");
         }
         
         
@@ -110,8 +110,8 @@ public class Encuesta {
         System.out.println("");
         
         System.out.println("----------Resultados por respuesta----------");
-        for (int i=0; i<9; i++) {
-            System.out.println("La respuesta número "+(i+1)+" se ha recibido un total de "+Resp.getRespOpc().get("respuesta_"+i)+" veces." );
+        for (int i=1; i<NumeroRespuestas; i++) {
+            System.out.println("La respuesta número "+i+" se ha recibido un total de "+Resp.getRespOpc().get("respuesta_"+i)+" veces." );
         }
     }
 }
@@ -192,14 +192,14 @@ class Respuestas{
         // -Accedemos al valor almacenado de respuestas totales EN ESA ZONA
         // -Sumamos 1 y lo sobreescribimos
         int valorZ = RespZona.get(zona);
-        RespZona.put(zona, valorZ++);
+        RespZona.put(zona, valorZ+1);
         
         
         // Para la respuesta que estemos indicando:
         // -Accedemos al valor almacenado de respuestas totales PARA ESA RESPUESTA
         // -Sumamos 1 y lo sobreescribimos
         int valorR = RespOpc.get(respuesta);
-        RespOpc.put(respuesta, valorR++);
+        RespOpc.put(respuesta, valorR+1);
     }
 
     
