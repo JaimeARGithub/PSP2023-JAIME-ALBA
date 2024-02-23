@@ -19,6 +19,22 @@ import java.util.Scanner;
  *
  * @author jaime
  */
+// Hecho con protocolo UDP. No hay conexión directa.
+
+// Se construyen los datagramas; hay redes que no los admiten de más de X tamaño, para
+// evitar que nos los fragmenten los fijamos nosotros.
+// Abrir un DatagramSocket estoy abriendo una comunicación con la red local, me permite
+// enviar o recibir paquetes.
+
+// Como el acceso a almacenamiento secundario es muy lento, el contenido del fichero se
+// vuelca en un HashMap; las variables están en memoria principal, que es mucho más rápida.
+
+// El servidor abre el datagramSocket en un puerto, no hace nada más; se queda esperando
+// peticiones a ese puerto.
+
+// Bucle while true -> los servidores se ejecutan siempre dentro de un bucle principal
+// Bucle infinito, se suelen evitar, pero en servidores se usan
+
 public class ServidorDNS {
 
     // Vamos a hacer un mini archivo host; tiene las IPs y las nombres de los sitios más habituales
@@ -83,11 +99,17 @@ public class ServidorDNS {
                 
                 // el cliente enviaba y recibía
                 // el servidor hace lo contrario: recibe y envía
+                // le indico al servidor que se quede esperando para recibir un paquete
+                // cuando el paquete llega, lo procesa, elabora la respuesta y responde
                 DatagramPacket paqueteRecibido = new DatagramPacket(datosRecibidos, datosRecibidos.length);
+                /// el .receive pone el programa en espera y no sigue hasta que llegue algo
                 serverSocket.receive(paqueteRecibido);
                 
                 
                 // tras recibir, se contesta
+                // hacen falta los datos, la IP y el puerto de origen; son necesarios
+                // porque, a la hora de enviar la respuesta, hay que saber de qué máquina
+                // viene y de qué aplicación
                 String nombreDominio = new String(paqueteRecibido.getData(), 0, paqueteRecibido.getLength(), COD_TEXTO);
                 
                 
@@ -105,12 +127,17 @@ public class ServidorDNS {
                 // Ya tenemos la respuesta; la retornamos al cliente
                 // la dirección y el puerto se quedan
                 InetAddress IPCliente = paqueteRecibido.getAddress();
+                
+                // el número de puerto devuelve un entero
                 int puertoCliente = paqueteRecibido.getPort();
                 
                 
                 // El envío de la respuesta es igual que en los ejercicios anteriores
+                // hay que convertir la String en un array de bytes para poder enviar la respuesta,
+                // o me pega un error
                 byte[] b = respuesta.getBytes(COD_TEXTO);
                 
+                // para pasarle todos los datos, hay que indicarle que lo haga desde el inicio hasta el final
                 DatagramPacket paqueteEnviado = new DatagramPacket(b, b.length, IPCliente, puertoCliente);
                 
                 serverSocket.send(paqueteEnviado);

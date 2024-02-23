@@ -87,7 +87,10 @@ public class ClienteEcho {
         
         // CAMBIADO PARA PROBAR EL SERVIDOR DNS
         String nomHost = "localhost";
-        int numPuerto = 3000;
+        //int numPuerto = 3000;
+        
+        // CAMBIADO PARA PROBAR EL SERVIDOR ECHO CONCURRENTE
+        int numPuerto = 4444;
         
         
         
@@ -182,6 +185,10 @@ public class ClienteEcho {
                 // 3.- meto mensaje en netbeans, debería llegar a la terminal
                 // 4.- abro otra terminal, echo "MuyBien" | nc localhost -u numpuerto
                 // 5.- debería llegar a netbeans
+                
+                
+                // cliente: en una terminal, echo "hola" | nc localhost -u 5000
+                // servidor: en otra terminal, nc -ul 5000
             }
             
         } catch (SocketException ex) {
